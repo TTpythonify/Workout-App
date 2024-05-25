@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkOut</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='workout.css') }}">
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Select Workout Target Area</h1>
+        <form action="/" method="post">
+            <label for="workout-target">Choose a target area:</label>
+            <select id="workout-target" name="workout-target">
+                <option value="upper arms">Upper Arms</option>
+                <option value="shoulders">Shoulders</option>
+                <option value="neck">Neck</option>
+                <option value="lower legs">Lower Legs</option>
+                <option value="lower arms">Lower Arms</option>
+                <option value="chest">Chest</option>
+                <option value="cardio">Cardio</option>
+                <option value="back">Back</option>
+            </select>
+            <input type="submit" value="Submit">
+        </form>
+
+        <div class="workout-results">
+
+            {% if results %}
+            <h2>Total workout {{ total_results }}</h2>
+                {% for result in results %}
+                    <div class="workout-item">
+                        <h2>{{ result.name }}</h2>
+                        <div class="workout-details">
+                            <div class="workout-text">
+                                <p><strong>Equipment:</strong> {{ result.equipment }}</p>
+                                <p><strong>Target:</strong> {{ result.target }}</p>
+                                <p><strong>Instructions:</strong></p>
+                                <ul>
+                                    {% for instruction in result.instructions %}
+                                        <li>{{ instruction }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% if result.gifUrl != 'Gif unavailable' %}
+                                <div class="workout-gif">
+                                    <img src="{{ result.gifUrl }}" alt="{{ result.name }} GIF">
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+           
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
